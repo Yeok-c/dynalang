@@ -5,6 +5,8 @@ from gym import spaces
 import os
 import pickle
 from PIL import Image, ImageDraw, ImageFont
+import sys
+sys.path.insert(0, '/messenger-emma')
 
 class Messenger(embodied.Env):
 
@@ -14,9 +16,10 @@ class Messenger(embodied.Env):
     mode="train",
     size=(16, 16),
     length=64,
-    load_embeddings=True,
+    load_embeddings=False,
     vis=False,
   ):
+    self.max_token_seqlen = 36 # per manual sentence
     print(f"Messenger config: {task} {mode} len {length}")
     assert task in ("s1", "s2", "s3")
     assert mode in ("train", "eval")
@@ -83,7 +86,6 @@ class Messenger(embodied.Env):
     self.length = length
     self.reading = False
     self.read_step = 0
-    self.max_token_seqlen = 36 # per manual sentence
 
     self.n_entities = 17
     self.grid_size = (STATE_HEIGHT, STATE_WIDTH)
